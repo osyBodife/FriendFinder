@@ -40,6 +40,27 @@ app.get('/', function (req, res) {
     res.sendFile(getDirName() + '/home.html');
 });
 
+//to export the routes we put the created routes in module export module
+
+module.exports = {
+    getDirName: function(){
+        var str = __dirname;
+        var result = str.replace("routing", "public");
+        return result;
+
+    },
+    home: function () { 
+        app.get('/', function (req, res) {
+            res.sendFile(getDirName() + '/home.html');
+        }); },
+    survey: function () {
+        app.get('/survey', function (req, res) {
+            res.sendFile(getDirName() + '/survey.html');
+        });
+    } 
+    
+}
+
 let data;
 let url ="https://friend-finder-fsf.herokuapp.com/api/friends";
 request(url, function (error, res, body) {

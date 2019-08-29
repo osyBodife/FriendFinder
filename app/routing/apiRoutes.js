@@ -1,6 +1,8 @@
 // Require dependencies
 var http = require("http");
 var fs = require("fs");
+//var htmlRoutes=require("./htmlRoutes");
+//const htmlRoutes = require("./htmlRoutes");
 
 const express = require('express')
 var bodyParser = require('body-parser');
@@ -23,11 +25,11 @@ app.use(express.json());
 //replace routing with public
 //create a function to execute that
 
-function getDirName() {
-    var str = __dirname;
-    var result = str.replace("routing", "public");
-    return result;
-}
+// function getDirName() {
+//     var str = __dirname;
+//     var result = str.replace("routing", "public");
+//     return result;
+// }
 let data;
 app.get('/api/friends', function (req, res) {
     data = req.body;
@@ -48,19 +50,29 @@ function getDirName() {
     var str = __dirname;
     var result = str.replace("routing", "public");
     return result;
-}
+};
+
+app.get('/', function (req, res) {
+    res.sendFile(getDirName() + '/home.html');
+});
 
 app.get('/survey', function (req, res) {
     res.sendFile(getDirName() + '/survey.html');
 
 }); 
+// htmlRoutes.getDirName();
+// htmlRoutes.home();
+// htmlRoutes.survey();
 
-// app.POST('/api/friends', function (req, res) {
-//     res.sendFile(getDirName() + '/home.html');
-// });
+app.get('/api/friends', function (req, res) {
+    res.send(JSON.stringify(req.body));
+});
+
+
 app.post('/survey', urlencodedParser, function (req, res) {
     //res.send('welcome, ' + req.body);
-    console.log(req.body);
+    let data=req.body;
+    console.log(JSON.stringify(data));
 })
 //     // Capture the url the request is made to
 //     var path = req.url;
