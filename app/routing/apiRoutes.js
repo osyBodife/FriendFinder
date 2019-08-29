@@ -75,14 +75,6 @@ app.get('/api/friends', function (req, res) {
 });
 
 
-// app.get('/api/users', function (req, res) {
-//     var user_id = req.param('id');
-//     var token = req.param('token');
-//     var geo = req.param('geo');
-
-//     res.send(user_id + ' ' + token + ' ' + geo);
-// });
-
 function getDirName() {
     var str = __dirname;
     var result = str.replace("routing", "public");
@@ -106,17 +98,31 @@ function addNewUser(user_data){
 
 }
 
-app.post('/survey', urlencodedParser, function (req, res) {
-    //res.send('welcome, ' + req.body);
-    console.log(req.body);
-    console.log("welcome");
-})
+// app.post('/survey', urlencodedParser, function (req, res) {
+//     //res.send('welcome, ' + req.body);
+//     //console.log(req.body);
+//     console.log("welcome");
+// });
 
+app.post('/api/friends', urlencodedParser, (req, res) => {
+    var userData =JSON.stringify(req.body);
+    
+    console.log(userData);
+    
+});
 
-// POST /api/users gets JSON bodies
-app.post('/api/users', jsonParser, function (req, res) {
-    // create user in req.body
-})
+// app.post('/survey', (req, res) => {
+//     var userData = req.body;
+//     console.log(userData);
+//     // var index = findMatch(userData.scores);
+//     // friendsData.push(req.body);
+//     // res.json(friendsData[index]);
+// });
+
+// // POST /api/users gets JSON bodies
+// app.post('/api/users', jsonParser, function (req, res) {
+//     // create user in req.body
+// })
 
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function () {

@@ -43,7 +43,7 @@
 
             <hr>
             <h3>About You</h3>
-            <form id="survery_form" method="POST" action="/survey">
+            <form id="survey_form" method="POST" action="/api/friends">
                 <h4>Name (Required)</h4>
                 <input type="text" id="name" class="form-control" required>
 
@@ -239,7 +239,8 @@
         //     console.log(scores);
         // }
 
-
+    var currentURL = window.location.origin;
+    console.log (currentURL);
         $("#submit").click(function (event) {
             event.preventDefault();
             let name = $("#name").val().trim();
@@ -255,16 +256,26 @@
             testQtn("#q9");
             testQtn("#q10");
             console.log(scores);
-            person = {
+            new_person = {
                 name: name,
                 photo: photo,
                 score: scores
             }
-            console.log(person);
-            
+            console.log(new_person);
+            // Question: What does this code do??
+            $.post(currentURL + "/api/friends", new_person, function (data){
+            // $.post(currentURL + "/api/friends", new_person)
+            //     .then(function (data) {
+                    console.log("welcome", + data);
+                    alert("Adding new user...");
+                });
+                //clear form field after submission
+            $('#survey_form input[type="text"]').val('');
 
         });
+            
 
+        
 
     </script>
 </body>
