@@ -1,39 +1,76 @@
 // Require dependencies
 var http = require("http");
 var fs = require("fs");
+var request = require('request');
+var fs=require('fs');
 //var htmlRoutes=require("./htmlRoutes");
 //const htmlRoutes = require("./htmlRoutes");
 
-const express = require('express')
+const express = require('express');
+const app = express();
 var bodyParser = require('body-parser');
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
+// create application/json parser
+var jsonParser = bodyParser.json()
+
+// create application/x-www-form-urlencoded parser
+
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+
+// create application/json parser
+var jsonParser = bodyParser.json()
+
+
+
+
+var existing_friends = fs.readFileSync('/Users/osyod/gt/sandbox/FriendFinder/app/data/friends.js');
+var results=JSON.parse(existing_friends);
+//console.log(results);
+console.log(results[0].name);
 
 // Sets up the Express App
 // =============================================================
-const app = express()
+
 const PORT = process.env.PORT || 3000;
 
 // Sets up the Express app to handle data parsing
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+//app.use(express.urlencoded({ extended: true }));
+//app.use(express.json());
 
 
-//get dirname
-//replace routing with public
-//create a function to execute that
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
-// function getDirName() {
-//     var str = __dirname;
-//     var result = str.replace("routing", "public");
-//     return result;
-// }
+
 let data;
+function getFriends() {
+
+    let url = "https://friend-finder-fsf.herokuapp.com/api/friends";
+    request(url, function (error, res, body) {
+        //console.log('error:', error);
+        data = JSON.parse(body);
+
+        //console.log(data);
+        //console.log(data[0].name);
+        //res.send(data);
+
+    });
+};
+
+
 app.get('/api/friends', function (req, res) {
-    data = req.body;
-    res.send(data);
+
+    getFriends();
+    //console.log(data);
+    res.send(JSON.stringify(data));
+    let results = JSON.stringify(data);
+    console.log(results);
+
 
 });
 
@@ -52,31 +89,34 @@ function getDirName() {
     return result;
 };
 
-app.get('/', function (req, res) {
-    res.sendFile(getDirName() + '/home.html');
-});
+
 
 app.get('/survey', function (req, res) {
     res.sendFile(getDirName() + '/survey.html');
 
-}); 
+});
 // htmlRoutes.getDirName();
 // htmlRoutes.home();
 // htmlRoutes.survey();
+function addNewUser(user_data){
+    fs.appendFile('friend.js', user_data, function (err) {
+        if (err) throw err;
+        console.log('Updated!');
+    });
 
-app.get('/api/friends', function (req, res) {
-    res.send(JSON.stringify(req.body));
-});
-
+}
 
 app.post('/survey', urlencodedParser, function (req, res) {
     //res.send('welcome, ' + req.body);
-    let data=req.body;
-    console.log(JSON.stringify(data));
+    console.log(req.body);
+    console.log("welcome");
 })
-//     // Capture the url the request is made to
-//     var path = req.url;
 
+
+// POST /api/users gets JSON bodies
+app.post('/api/users', jsonParser, function (req, res) {
+    // create user in req.body
+})
 
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function () {
