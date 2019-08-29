@@ -44,13 +44,23 @@ app.get('/api/friends', function (req, res) {
 //     res.send(user_id + ' ' + token + ' ' + geo);
 // });
 
+function getDirName() {
+    var str = __dirname;
+    var result = str.replace("routing", "public");
+    return result;
+}
 
+app.get('/survey', function (req, res) {
+    res.sendFile(getDirName() + '/survey.html');
+
+}); 
 
 // app.POST('/api/friends', function (req, res) {
 //     res.sendFile(getDirName() + '/home.html');
 // });
-app.post('/api/friends', urlencodedParser, function (req, res) {
-    res.send('welcome, ' + req.body);
+app.post('/survey', urlencodedParser, function (req, res) {
+    //res.send('welcome, ' + req.body);
+    console.log(req.body);
 })
 //     // Capture the url the request is made to
 //     var path = req.url;
