@@ -263,9 +263,9 @@
             }
             console.log(new_person);
             // Question: What does this code do??
-            $.post(currentURL + "/api/friends", new_person, function (data){
-            // $.post(currentURL + "/api/friends", new_person)
-            //     .then(function (data) {
+            //$.post(currentURL + "/api/friends", new_person, function (data){
+            $.post(currentURL + "/api/friends", new_person)
+               .then(function (data) {
                     console.log("welcome", + data);
                     alert("Adding new user...");
                 });

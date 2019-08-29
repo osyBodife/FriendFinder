@@ -103,11 +103,14 @@ function addNewUser(user_data){
 //     //console.log(req.body);
 //     console.log("welcome");
 // });
-
+let userData;
 app.post('/api/friends', urlencodedParser, (req, res) => {
     var userData =JSON.stringify(req.body);
     
-    console.log(userData);
+    //console.log(userData);
+    data = JSON.parse(userData);
+    //console.log(data);
+    console.log(data.score);
     
 });
 
