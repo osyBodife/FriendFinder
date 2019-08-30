@@ -1,56 +1,25 @@
-// Require dependencies
-var http = require("http");
-var fs = require("fs");
+//establish dependencies
+
+var express = require('express');
+var bodyParser = require('body-parser');
+var path = require('path');
+
+//create instannces of express
+var app = express(); 
+//set the listening port with default
+var PORT = process.env.PORT || 3000; 
+//create json converters
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+
+//access routes created in other .js files
+require('./app/routing/api-routes.js')(app);
+require('./app/routing/html-routes.js')(app);
 
 
-// Sets up the Express App
-// =============================================================
-var app = express();
-var PORT = process.env.PORT || 3000;
-
-// Sets up the Express app to handle data parsing
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-
-var server = http.createServer(handleRequest);
-
-function handleRequest(req, res) {
-
-    // Capture the url the request is made to
-    var path = req.url;
-
-    // When we visit different urls, read and respond with different files
-    switch (path) {
-
-        case "/food":
-            return fs.readFile(__dirname + "/food.html", function (err, data) {
-                res.writeHead(200, { "Content-Type": "text/html" });
-                res.end(data);
-            });
-
-        case "/movies":
-            return fs.readFile(__dirname + "/movies.html", function (err, data) {
-                res.writeHead(200, { "Content-Type": "text/html" });
-                res.end(data);
-            });
-
-        case "/frameworks":
-            return fs.readFile(__dirname + "/frameworks.html", function (err, data) {
-                res.writeHead(200, { "Content-Type": "text/html" });
-                res.end(data);
-            });
-
-        // default to rendering index.html, if none of above cases are hit
-        default:
-            return fs.readFile(__dirname + "/index.html", function (err, data) {
-                res.writeHead(200, { "Content-Type": "text/html" });
-                res.end(data);
-            });
-    }
-}
-
-// Starts our server.
-server.listen(PORT, function () {
-    console.log("Server is listening on PORT: " + PORT);
+//confirm the port the app is listening to
+app.listen(PORT, function () {
+    console.log("App listening on PORT: " + PORT);
 });
