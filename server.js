@@ -3,6 +3,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
+const friends = require("./app/routing/friend");
+console.log(friends.getFriendsArray());
 
 //create instannces of express
 var app = express(); 
@@ -15,8 +17,8 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
 //access routes created in other .js files
-require('./app/routing/api-routes.js')(app);
-require('./app/routing/html-routes.js')(app);
+require('./app/routing/apiRoutes.js')(app);
+require('./app/routing/htmlRoutes.js')(app);
 
 
 //confirm the port the app is listening to

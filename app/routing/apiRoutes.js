@@ -40,6 +40,8 @@ const PORT = process.env.PORT || 3000;
 //app.use(express.urlencoded({ extended: true }));
 //app.use(express.json());
 
+//load data from friends.js
+var friends = require('../data/friends.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -65,7 +67,7 @@ function getFriends() {
 
 app.get('/api/friends', function (req, res) {
 
-    getFriends();
+    //getFriends();
     //console.log(data);
     res.send(JSON.stringify(data));
     let results = JSON.stringify(data);
@@ -74,6 +76,14 @@ app.get('/api/friends', function (req, res) {
 
 });
 
+//export the route
+module.exports = function (app) {
+
+    app.get('/api/friends', function (req, res) {
+        res.json(friends);
+    });
+
+}
 
 function getDirName() {
     var str = __dirname;
@@ -128,8 +138,8 @@ app.post('/api/friends', urlencodedParser, (req, res) => {
 // })
 //#var value = Math.abs(-1);
 // Start our server so that it can begin listening to client requests.
-app.listen(PORT, function () {
-    // Log (server-side) when our server has started
-    console.log("Server listening on: http://localhost:" + PORT);
-});
+// app.listen(PORT, function () {
+//     // Log (server-side) when our server has started
+//     console.log("Server listening on: http://localhost:" + PORT);
+// });
 
