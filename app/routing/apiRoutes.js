@@ -2,7 +2,7 @@
 //var http = require("http");
 var fs = require("fs");
 var request = require('request');
-var fs=require('fs');
+
 //var htmlRoutes=require("./htmlRoutes");
 //const htmlRoutes = require("./htmlRoutes");
 
@@ -19,16 +19,6 @@ var jsonParser = bodyParser.json()
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 
-// create application/json parser
-var jsonParser = bodyParser.json()
-
-
-
-
-var existing_friends = fs.readFileSync('/Users/osyod/gt/sandbox/FriendFinder/app/data/friends.js');
-var results=JSON.parse(existing_friends);
-//console.log(results);
-console.log(results[0].name);
 
 // Sets up the Express App
 // =============================================================
@@ -49,20 +39,20 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 
-let data;
-function getFriends() {
+// let data;
+// function getFriends() {
 
-    let url = "https://friend-finder-fsf.herokuapp.com/api/friends";
-    request(url, function (error, res, body) {
-        //console.log('error:', error);
-        data = JSON.parse(body);
+//     let url = "https://friend-finder-fsf.herokuapp.com/api/friends";
+//     request(url, function (error, res, body) {
+//         //console.log('error:', error);
+//         data = JSON.parse(body);
 
-        //console.log(data);
-        //console.log(data[0].name);
-        //res.send(data);
+//         //console.log(data);
+//         //console.log(data[0].name);
+//         //res.send(data);
 
-    });
-};
+//     });
+// };
 
 
 app.get('/api/friends', function (req, res) {
@@ -97,16 +87,16 @@ app.get('/survey', function (req, res) {
     res.sendFile(getDirName() + '/survey.html');
 
 });
-// htmlRoutes.getDirName();
-// htmlRoutes.home();
-// htmlRoutes.survey();
-function addNewUser(user_data){
-    fs.appendFile('friend.js', user_data, function (err) {
-        if (err) throw err;
-        console.log('Updated!');
-    });
+// // htmlRoutes.getDirName();
+// // htmlRoutes.home();
+// // htmlRoutes.survey();
+// function addNewUser(user_data){
+//     fs.appendFile('friend.js', user_data, function (err) {
+//         if (err) throw err;
+//         console.log('Updated!');
+//     });
 
-}
+// }
 
 // app.post('/survey', urlencodedParser, function (req, res) {
 //     //res.send('welcome, ' + req.body);

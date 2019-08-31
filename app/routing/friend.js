@@ -1,4 +1,5 @@
-let friends=[
+let friends={
+data:[
     {
         "name": "Ahmed",
         "photo": "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAq7AAAAJDAwYzI4NTQ4LWYwZWUtNGFkYS1hNTYwLTZjYzkwY2ViZDA3OA.jpg",
@@ -95,9 +96,17 @@ let friends=[
             "5"
         ]
     }
-];
+]
+};
+
+// var obj = {
+//     key: [
+//         'value1',
+//         'value2'
+//     ]
+// };
 
 module.exports = {
-    getFriendsArray: function () { return friends },
+    getFriendsArray: function () { return friends.data },
     
 }

@@ -20,8 +20,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 require('./app/routing/apiRoutes.js')(app);
 require('./app/routing/htmlRoutes.js')(app);
 
-
-//confirm the port the app is listening to
 app.listen(PORT, function () {
-    console.log("App listening on PORT: " + PORT);
+    // Log (server-side) when our server has started
+    console.log("Server listening on: http://localhost:" + PORT);
 });
