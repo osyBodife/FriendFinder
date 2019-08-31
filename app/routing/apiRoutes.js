@@ -2,6 +2,9 @@
 //var http = require("http");
 var fs = require("fs");
 var request = require('request');
+//import data from friends.js
+const friends = require("./app/routing/friend");
+console.log(friends.getFriendsArray());
 
 //var htmlRoutes=require("./htmlRoutes");
 //const htmlRoutes = require("./htmlRoutes");
@@ -37,22 +40,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
-
-
-// let data;
-// function getFriends() {
-
-//     let url = "https://friend-finder-fsf.herokuapp.com/api/friends";
-//     request(url, function (error, res, body) {
-//         //console.log('error:', error);
-//         data = JSON.parse(body);
-
-//         //console.log(data);
-//         //console.log(data[0].name);
-//         //res.send(data);
-
-//     });
-// };
 
 
 app.get('/api/friends', function (req, res) {
@@ -96,13 +83,29 @@ app.post('/api/friends', urlencodedParser, (req, res) => {
     data = JSON.parse(userData);
     //console.log(data);
     console.log(data.score);
+    //call the function that matches friends
+    matchFriends();
     
 });
+//create a funtion that handles the logic
+function matchFriends(){
+    //convert the data.score to numbers
+    //create a new array to hold the new scores
+    let userScoreArray=[];
+
+    for(var i=0; i<data.score.length; i++){
+        userScoreArray.push(data.score.length[i]);      
+
+    }
+    console.log(userScoreArray);
+
+}
+
 
 //#var value = Math.abs(-1);
-// Start our server so that it can begin listening to client requests.
-// app.listen(PORT, function () {
-//     // Log (server-side) when our server has started
-//     console.log("Server listening on: http://localhost:" + PORT);
-// });
+//Start our server so that it can begin listening to client requests.
+app.listen(PORT, function () {
+    // Log (server-side) when our server has started
+    console.log("Server listening on: http://localhost:" + PORT);
+});
 
