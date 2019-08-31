@@ -87,22 +87,7 @@ app.get('/survey', function (req, res) {
     res.sendFile(getDirName() + '/survey.html');
 
 });
-// // htmlRoutes.getDirName();
-// // htmlRoutes.home();
-// // htmlRoutes.survey();
-// function addNewUser(user_data){
-//     fs.appendFile('friend.js', user_data, function (err) {
-//         if (err) throw err;
-//         console.log('Updated!');
-//     });
 
-// }
-
-// app.post('/survey', urlencodedParser, function (req, res) {
-//     //res.send('welcome, ' + req.body);
-//     //console.log(req.body);
-//     console.log("welcome");
-// });
 let userData;
 app.post('/api/friends', urlencodedParser, (req, res) => {
     var userData =JSON.stringify(req.body);
@@ -114,18 +99,6 @@ app.post('/api/friends', urlencodedParser, (req, res) => {
     
 });
 
-// app.post('/survey', (req, res) => {
-//     var userData = req.body;
-//     console.log(userData);
-//     // var index = findMatch(userData.scores);
-//     // friendsData.push(req.body);
-//     // res.json(friendsData[index]);
-// });
-
-// // POST /api/users gets JSON bodies
-// app.post('/api/users', jsonParser, function (req, res) {
-//     // create user in req.body
-// })
 //#var value = Math.abs(-1);
 // Start our server so that it can begin listening to client requests.
 // app.listen(PORT, function () {
