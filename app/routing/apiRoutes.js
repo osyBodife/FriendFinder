@@ -1,18 +1,12 @@
 // Require dependencies
-//var http = require("http");
-var fs = require("fs");
-var request = require('request');
-//import data from friends.js
-const friends = require("./app/routing/friend");
-console.log(friends.getFriendsArray());
-
-//var htmlRoutes=require("./htmlRoutes");
-//const htmlRoutes = require("./htmlRoutes");
 
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
 
+//import data from friends.js
+const friends = require('./../data/friends.js');
+//console.log(friends.getFriendsArray());
 
 // create application/json parser
 var jsonParser = bodyParser.json()
@@ -33,8 +27,6 @@ const PORT = process.env.PORT || 3000;
 //app.use(express.urlencoded({ extended: true }));
 //app.use(express.json());
 
-//load data from friends.js
-var friends = require('../data/friends.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -56,11 +48,113 @@ app.get('/api/friends', function (req, res) {
 //export the route
 module.exports = function (app) {
 
+    //get the list of existing friends in db
     app.get('/api/friends', function (req, res) {
         res.json(friends);
     });
 
+
+    //add new user from form input
+    let userInput;
+    //initialize total difference and declare other variables
+    var totalDifference = 0;
+    let a, b;
+   
+    //create an empty to hold the new array after obtaining absolute values
+    let combinedArray = [];  
+    //combined array would be sorted by totalDifference to get smallest  
+    let new_CombinedArray;  
+    app.post('/api/friends', urlencodedParser, (req, res) => {
+
+        // save user input in a variable
+        var userInput = req.body;
+        //console.log(JSON.stringify(userInput);
+
+        var userScoreArray = userInput.score;
+        // console.log('userScoreArray);
+
+
+        // set the match data to empty values
+        var matchName = '';
+        var matchImage = '';
+        
+       
+         // loop thru existing friends in the list
+        var bestMatchArrayIndex = 0;
+        for (var i = 0; i < friends.length; i++) {
+            // console.log('existing friends : ' + JSON.stringify(friends[i]));
+
+            // get absolute value for corresponding qtns btw new user and existing friends
+           
+            var num_diff = 0;
+            for (var j = 0; j < userScoreArray.length; j++) {
+                num_diff = Math.abs(friends[i].score[j] - userScoreArray[j]);
+                totalDifference += num_diff;
+                //console.log('total_diff : ' + totalDifference);
+                combinedArray.push({ "name":friends[i].name, "photo":friends[i].photo, "totalDifference":totalDifference });
+                //console.log(combinedArray);
+                
+
+            }
+
+
+        }
+        //console.log(combinedArray);   
+        console.log(combinedArray[0].totalDifference);  
+
+        //create function to sort array of objects by total Difference
+        function compare (a, b) {
+            if (a.totalDifference < b.totalDifference) {
+                return -1;
+            }
+            if (a.totalDifference > b.totalDifference) {
+                return 1;
+            }
+            return 0;
+        }  
+           
+        new_combinedArray = combinedArray.sort(compare);
+        console.log(new_combinedArray[0]);
+        return new_combinedArray;
+
+    });
+
+
 }
+
+// var objs = [
+//     { first_nom: 'Lazslo', last_nom: 'Jamf' },
+//     { first_nom: 'Pig', last_nom: 'Bodine' },
+//     { first_nom: 'Pirate', last_nom: 'Prentice' }
+// ];
+// function compare(a, b) {
+//     if (a.last_nom < b.last_nom) {
+//         return -1;
+//     }
+//     if (a.last_nom > b.last_nom) {
+//         return 1;
+//     }
+//     return 0;
+// }
+
+// objs.sort(compare);
+
+// new_obj = objs.sort(compare);
+// console.log(new_obj);
+
+//create function to sort array of objects by total Difference
+function sort_combinedArray(a, b) {
+    if (a.totalDifference < b.totalDifference) {
+        return -1;
+    }
+    if (a.totalDifference > b.totalDifference) {
+        return 1;
+    }
+    return 0;
+}
+
+
+
 
 function getDirName() {
     var str = __dirname;
@@ -77,24 +171,24 @@ app.get('/survey', function (req, res) {
 
 let userData;
 app.post('/api/friends', urlencodedParser, (req, res) => {
-    var userData =JSON.stringify(req.body);
-    
+    var userData = JSON.stringify(req.body);
+
     //console.log(userData);
     data = JSON.parse(userData);
     //console.log(data);
     console.log(data.score);
     //call the function that matches friends
     matchFriends();
-    
+
 });
 //create a funtion that handles the logic
-function matchFriends(){
+function matchFriends() {
     //convert the data.score to numbers
     //create a new array to hold the new scores
-    let userScoreArray=[];
+    let userScoreArray = [];
 
-    for(var i=0; i<data.score.length; i++){
-        userScoreArray.push(data.score.length[i]);      
+    for (var i = 0; i < data.score.length; i++) {
+        userScoreArray.push(data.score.length[i]);
 
     }
     console.log(userScoreArray);
@@ -104,8 +198,8 @@ function matchFriends(){
 
 //#var value = Math.abs(-1);
 //Start our server so that it can begin listening to client requests.
-app.listen(PORT, function () {
-    // Log (server-side) when our server has started
-    console.log("Server listening on: http://localhost:" + PORT);
-});
+// app.listen(PORT, function () {
+//     // Log (server-side) when our server has started
+//     console.log("Server listening on: http://localhost:" + PORT);
+// });
 
