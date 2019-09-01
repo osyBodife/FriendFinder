@@ -59,11 +59,11 @@ module.exports = function (app) {
     //initialize total difference and declare other variables
     var totalDifference = 0;
     let a, b;
-   
+
     //create an empty to hold the new array after obtaining absolute values
-    let combinedArray = [];  
+    let combinedArray = [];
     //combined array would be sorted by totalDifference to get smallest  
-    let new_CombinedArray;  
+    let new_CombinedArray;
     app.post('/api/friends', urlencodedParser, (req, res) => {
 
         // save user input in a variable
@@ -74,36 +74,36 @@ module.exports = function (app) {
         // console.log('userScoreArray);
 
 
-        // set the match data to empty values
-        var matchName = '';
-        var matchImage = '';
-        
+        // declare matching variables
        
-         // loop thru existing friends in the list
+        var matchedImage;
+        var matchedName;
+
+
+        // loop thru existing friends in the list
         var bestMatchArrayIndex = 0;
         for (var i = 0; i < friends.length; i++) {
             // console.log('existing friends : ' + JSON.stringify(friends[i]));
 
             // get absolute value for corresponding qtns btw new user and existing friends
-           
+
             var num_diff = 0;
             for (var j = 0; j < userScoreArray.length; j++) {
                 num_diff = Math.abs(friends[i].score[j] - userScoreArray[j]);
                 totalDifference += num_diff;
                 //console.log('total_diff : ' + totalDifference);
-                combinedArray.push({ "name":friends[i].name, "photo":friends[i].photo, "totalDifference":totalDifference });
+                combinedArray.push({ "name": friends[i].name, "photo": friends[i].photo, "totalDifference": totalDifference });
                 //console.log(combinedArray);
-                
+
 
             }
 
 
         }
         //console.log(combinedArray);   
-        console.log(combinedArray[0].totalDifference);  
-
+        // console.log(combinedArray[0].totalDifference);  
         //create function to sort array of objects by total Difference
-        function compare (a, b) {
+        function compare(a, b) {
             if (a.totalDifference < b.totalDifference) {
                 return -1;
             }
@@ -111,10 +111,15 @@ module.exports = function (app) {
                 return 1;
             }
             return 0;
-        }  
-           
+        }
+        // assigned the sorted array to new varaible
         new_combinedArray = combinedArray.sort(compare);
-        console.log(new_combinedArray[0]);
+        //when the combinedArray is sorted in DESC
+        //the first element in new_combinedArray becomes the matching friend
+       // console.log(new_combinedArray[0]);
+        matchedName = new_combinedArray[0].name;
+        matchedImage = new_combinedArray[0].photo;
+        console.log("Matched Name is: "+ matchedName);
         return new_combinedArray;
 
     });
@@ -141,19 +146,6 @@ module.exports = function (app) {
 
 // new_obj = objs.sort(compare);
 // console.log(new_obj);
-
-//create function to sort array of objects by total Difference
-function sort_combinedArray(a, b) {
-    if (a.totalDifference < b.totalDifference) {
-        return -1;
-    }
-    if (a.totalDifference > b.totalDifference) {
-        return 1;
-    }
-    return 0;
-}
-
-
 
 
 function getDirName() {
