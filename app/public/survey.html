@@ -176,29 +176,24 @@
             <hr>
 
         </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="results-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Best Match</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h2 id="match-name"></h2>
-                        <img id="match-img" src="" alt="match-img">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
+<!-- Modal Dialog Displaying Closest Friend Match -->
+<div id="modalFriend" class="modal">
+    <div class="modal-content">
+        <h4>Closest Friend Match</h4>
+        <div class="divider"></div>
+        <h5 id="bestMatchName"></h5>
+        <img id="bestMatchImage" class="materialboxed" width="650" src="">
+    </div>
+    <div class="modal-footer">
+        <a href="/survey" class="modal-action modal-close waves-effect waves-green btn-flat">Try Again!</a>
+    </div>
+</div>
+
+
+
+
     <script type="text/javascript">
     
 
@@ -264,13 +259,25 @@
             console.log(new_person);
             // Question: What does this code do??
             //$.post(currentURL + "/api/friends", new_person, function (data){
+                
             $.post(currentURL + "/api/friends", new_person)
                .then(function (data) {
-                    console.log("welcome", + data);
-                    alert("Adding new user...");
+                //console.log('Best Match :' + JSON.stringify(data));
+               // console.log("name :" + data.name);
+                 // Set the modal values
+                $('#bestMatchName').html(data.name);
+                $("#bestMatchImage").attr("src", data.photo);
+                 //Pop open the modal dialog
+                 $('#modalFriend').modal('open');                   
+                    
                 });
                 //clear form field after submission
             $('#survey_form input[type="text"]').val('');
+            //modal logic
+            
+
+
+
 
         });
             

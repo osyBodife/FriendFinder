@@ -59,16 +59,17 @@ module.exports = function (app) {
     //initialize total difference and declare other variables
     var totalDifference = 0;
     let a, b;
+    let bestMatch={};
 
     //create an empty to hold the new array after obtaining absolute values
     let combinedArray = [];
     //combined array would be sorted by totalDifference to get smallest  
-    let new_CombinedArray;
+    let new_combinedArray;
     app.post('/api/friends', urlencodedParser, (req, res) => {
 
         // save user input in a variable
         var userInput = req.body;
-        //console.log(JSON.stringify(userInput);
+        //console.log(JSON.stringify(userInput));
 
         var userScoreArray = userInput.score;
         // console.log('userScoreArray);
@@ -119,8 +120,16 @@ module.exports = function (app) {
        // console.log(new_combinedArray[0]);
         matchedName = new_combinedArray[0].name;
         matchedImage = new_combinedArray[0].photo;
-        console.log("Matched Name is: "+ matchedName);
-        return new_combinedArray;
+        //console.log("Matched image is: "+ matchedImage);  
+        bestMatch = new_combinedArray[0];     
+        console.log(bestMatch);
+
+
+        // Put new friend from survey in "database" array
+        //friends.push(userInput);
+
+        // return the best match friend
+        res.send(bestMatch);
 
     });
 
@@ -148,44 +157,31 @@ module.exports = function (app) {
 // console.log(new_obj);
 
 
-function getDirName() {
-    var str = __dirname;
-    var result = str.replace("routing", "public");
-    return result;
-};
+// function getDirName() {
+//     var str = __dirname;
+//     var result = str.replace("routing", "public");
+//     return result;
+// };
 
 
 
-app.get('/survey', function (req, res) {
-    res.sendFile(getDirName() + '/survey.html');
+// app.get('/survey', function (req, res) {
+//     res.sendFile(getDirName() + '/survey.html');
 
-});
+// });
 
-let userData;
-app.post('/api/friends', urlencodedParser, (req, res) => {
-    var userData = JSON.stringify(req.body);
+// let userData;
+// app.post('/api/friends', urlencodedParser, (req, res) => {
+//     var userData = JSON.stringify(req.body);
 
-    //console.log(userData);
-    data = JSON.parse(userData);
-    //console.log(data);
-    console.log(data.score);
-    //call the function that matches friends
-    matchFriends();
+//     //console.log(userData);
+//     data = JSON.parse(userData);
+//     //console.log(data);
+//     console.log(data.score);
+//     //call the function that matches friends
+//     matchFriends();
 
-});
-//create a funtion that handles the logic
-function matchFriends() {
-    //convert the data.score to numbers
-    //create a new array to hold the new scores
-    let userScoreArray = [];
-
-    for (var i = 0; i < data.score.length; i++) {
-        userScoreArray.push(data.score.length[i]);
-
-    }
-    console.log(userScoreArray);
-
-}
+// });
 
 
 //#var value = Math.abs(-1);
