@@ -59,7 +59,7 @@ module.exports = function (app) {
     //initialize total difference and declare other variables
     var totalDifference = 0;
     let a, b;
-    let bestMatch={};
+    let bestMatch = {};
 
     //create an empty to hold the new array after obtaining absolute values
     let combinedArray = [];
@@ -76,15 +76,14 @@ module.exports = function (app) {
 
 
         // declare matching variables
-       
+
         var matchedImage;
         var matchedName;
 
 
-        // loop thru existing friends in the list
-        var bestMatchArrayIndex = 0;
+        // loop thru existing friends in the list      
         for (var i = 0; i < friends.length; i++) {
-            // console.log('existing friends : ' + JSON.stringify(friends[i]));
+            console.log('existing friends : ' + JSON.stringify(friends[i]));
 
             // get absolute value for corresponding qtns btw new user and existing friends
 
@@ -92,7 +91,7 @@ module.exports = function (app) {
             for (var j = 0; j < userScoreArray.length; j++) {
                 num_diff = Math.abs(friends[i].score[j] - userScoreArray[j]);
                 totalDifference += num_diff;
-                //console.log('total_diff : ' + totalDifference);
+                console.log('total_diff : ' + totalDifference);
                 combinedArray.push({ "name": friends[i].name, "photo": friends[i].photo, "totalDifference": totalDifference });
                 //console.log(combinedArray);
 
@@ -117,11 +116,11 @@ module.exports = function (app) {
         new_combinedArray = combinedArray.sort(compare);
         //when the combinedArray is sorted in DESC
         //the first element in new_combinedArray becomes the matching friend
-       // console.log(new_combinedArray[0]);
+        // console.log(new_combinedArray[0]);
         matchedName = new_combinedArray[0].name;
         matchedImage = new_combinedArray[0].photo;
         //console.log("Matched image is: "+ matchedImage);  
-        bestMatch = new_combinedArray[0];     
+        bestMatch = new_combinedArray[0];
         console.log(bestMatch);
 
 
