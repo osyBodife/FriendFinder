@@ -83,15 +83,40 @@ module.exports = function (app) {
 
         // loop thru existing friends in the list      
         for (var i = 0; i < friends.length; i++) {
-            console.log('existing friends : ' + JSON.stringify(friends[i]));
+            //console.log('existing friends : ' + JSON.stringify(friends[i]));        
+           let db_scores=friends[i].score;
+           //console.log(db_scores);
+           //change element to numbers
+           let dB_scoreArrays=db_scores.map(Number);
+           console.log(dB_scoreArrays);
+            //console.log(dB_scoreArrays[0][1]);
+           //console.log("Test length :" + dB_scoreArrays[0].length)
+           //get the size of inner array
+           let rows=dB_scoreArrays.length
+          // console.log("Test row" + rows);
+           for(let n=0; n<rows; n++){
+               let items=dB_scoreArrays[n];
+              //onsole.log("items :" + items);
+
+           
+           //let innerArraylength=dB_scoreArrays.length;
+           //console.log(innerArraylength)
+                    
+               
+
+           
+           //console.log(dB_scoreArrays);
+          
+
 
             // get absolute value for corresponding qtns btw new user and existing friends
-
             var num_diff = 0;
-            for (var j = 0; j < userScoreArray.length; j++) {
-                num_diff = Math.abs(friends[i].score[j] - userScoreArray[j]);
+            //or (var j = 0; j < innerArraylength; j++) {
+                for (var j = 0; j < userScoreArray.length; j++) {
+                num_diff = Math.abs(friends[i].score[i] - userScoreArray[j]);
+                 //num_diff = Math.abs(dB_scoreArrays[i][j]- userScoreArray[j]);
                 totalDifference += num_diff;
-                console.log('total_diff : ' + totalDifference);
+                //console.log('total_diff : ' + totalDifference);
                 combinedArray.push({ "name": friends[i].name, "photo": friends[i].photo, "totalDifference": totalDifference });
                 //console.log(combinedArray);
 
@@ -100,6 +125,8 @@ module.exports = function (app) {
 
 
         }
+    }
+    
         //console.log(combinedArray);   
         // console.log(combinedArray[0].totalDifference);  
         //create function to sort array of objects by total Difference
@@ -125,7 +152,7 @@ module.exports = function (app) {
 
 
         // Put new friend from survey in "database" array
-        //friends.push(userInput);
+        friends.push(userInput);
 
         // return the best match friend
         res.send(bestMatch);
