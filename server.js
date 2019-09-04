@@ -2,8 +2,8 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
-var path = require('path');
-const friends = require("./app/data/friends");
+//var path = require('path');
+//const friends = require("./app/data/friends");
 //console.log(friends.getFriendsArray());
 
 //create instannces of express
